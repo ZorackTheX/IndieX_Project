@@ -6,7 +6,7 @@ using UnityEngine;
 public class Card: MonoBehaviour
 {
     //Type of events RoomCards can be
-    public enum Type { Red, Blue, Black, Purple, Yellow, Green };
+    public enum Type { Red, Blue, Black, Purple, Yellow, Green, START};
 
     //Types of events in each RoomCards
     public Type[] types;

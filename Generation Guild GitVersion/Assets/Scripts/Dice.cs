@@ -32,7 +32,8 @@ public class Dice : MonoBehaviour
 
     private void Awake()
     {
-        anim = GetComponent<Animator>();    }
+        anim = GetComponent<Animator>();
+    }
 
     void Update()
     {
@@ -65,9 +66,15 @@ public class Dice : MonoBehaviour
 
         if (counter == 4)
         {
-            roomCalcDone = true;
+            StartCoroutine(DiceCR());
         }
 
+    }
+
+    IEnumerator DiceCR()
+    {
+        yield return new WaitForSeconds(3.5f);
+        roomCalcDone = true;
     }
 
     void StoreDiceValue()
@@ -81,6 +88,8 @@ public class Dice : MonoBehaviour
 
     public void ResetDiceCounter()
     {
+        roomCalcDone = false;
         counter = 0;
+        _roomCalc = 0;
     }
 }
