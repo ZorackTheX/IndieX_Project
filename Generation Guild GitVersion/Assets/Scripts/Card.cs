@@ -15,6 +15,9 @@ public class Card: MonoBehaviour
     [Range(1, 5)]
     public int eventNumb;
 
+    public bool activated = false;
+    public int positionNumb;
+
 
     private void Update()
     {
