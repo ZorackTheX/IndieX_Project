@@ -38,6 +38,7 @@ public class CardPaths : MonoBehaviour
         for (int i = 0; i < cards.Length; i++)
         {
             cards[i] = cardsStored.cards[cardNumb[i] - 1];
+            cards[i].positionNumb = cardNumb[i] - 1;
         }
     }
 }

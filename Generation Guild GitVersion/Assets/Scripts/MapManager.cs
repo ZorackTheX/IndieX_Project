@@ -10,8 +10,18 @@ public class MapManager : MonoBehaviour
     //RoomCards
     public CardPaths[] cardPaths1;
     public CardPaths[] cardPaths2;
+
     Card[] cards;
 
+    public Card[] map
+    {
+        get
+        {
+            return cards;
+        }
+    }
+
+    public bool mapOut = false;
     public int roomNumber = 4;
     public bool doMap = false;
     bool greenOut = false;
@@ -220,16 +230,24 @@ public class MapManager : MonoBehaviour
     {
         for (int i = 0; i < cards.Length;i++)
         {
+            cards[i].activated = true;
             anim = cards[i].gameObject.GetComponent<Animator>();
             anim.SetTrigger("AppearCard");
             yield return new WaitForSeconds(0.03f);
         }
+
+        mapOut = true;
 
     }
 
     //Reset variables to remake the map
     void Remake()
     {
+        foreach (Card c in cards)
+        {
+            c.activated = false;
+        }
+
         dice.ResetDiceCounter();
     }
 
