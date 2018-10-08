@@ -7,6 +7,7 @@ public class GamePlay : MonoBehaviour
     public CardStorage cardsMap;
     public Player player;
     public MapManager mapMan;
+    public Transform partyBase;
 
     Card[] cards;
 
@@ -23,6 +24,15 @@ public class GamePlay : MonoBehaviour
         if (mapMan.mapOut)
         {
             PlayCheck();
+        }
+
+        //Reset
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            player.transform.position = partyBase.position;
+
+            mapMan.Remake();
         }
     }
 
