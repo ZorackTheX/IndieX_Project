@@ -47,6 +47,11 @@ public class MapManager : MonoBehaviour
             CreateMap();
         }
 
+        if (mapOut)
+        {
+            dice.mapOutDiceBlock = true;
+        }
+
     }
 
     //Generates Route for the RoomCards to "appear"
@@ -212,7 +217,7 @@ public class MapManager : MonoBehaviour
     {
         Animator anim;
 
-        for (int i = 0; i < cards.Length;i++)
+        for (int i = 0; i < cards.Length; i++)
         {
             if (!cards[i].activated)
             {

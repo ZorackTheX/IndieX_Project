@@ -1227,6 +1227,7 @@ MonoBehaviour:
   spinTime: 2
   diceCD: 3.5
   roomCalcDone: 0
+  working: 1
 --- !u!4 &366315950 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2597061677917120071, guid: 07ec4c4e57e432a4e952f58bc8840930, type: 3}
@@ -5824,6 +5825,7 @@ MonoBehaviour:
   cardsMap: {fileID: 1999138809}
   player: {fileID: 214590231}
   mapMan: {fileID: 1813534696}
+  partyBase: {fileID: 1783801094}
   currentPosition: 0
 --- !u!4 &1409266089
 Transform:
@@ -7257,6 +7259,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9aac87860f538e41b9f4ce43c35faf0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1783801093
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1783801094}
+  m_Layer: 0
+  m_Name: PartyBase
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1783801094
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1783801093}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.2, y: -48.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1804402173
 PrefabInstance:
   m_ObjectHideFlags: 0

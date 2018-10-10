@@ -28,6 +28,7 @@ public class Dice : MonoBehaviour
 
     public bool roomCalcDone = false;
     public bool working = true;
+    public bool mapOutDiceBlock = false;
 
     Animator anim;
 
@@ -43,7 +44,7 @@ public class Dice : MonoBehaviour
             diceblock = true;
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) && !diceblock)
+        if (Input.GetKeyDown(KeyCode.Space) && !diceblock && !mapOutDiceBlock)
         {
             diceblock = true;
             diceClicked = true;
@@ -102,6 +103,7 @@ public class Dice : MonoBehaviour
 
     public void ResetDice()
     {
+        mapOutDiceBlock = false;
         working = true;
         diceblock = false;
         counter = 0;
