@@ -27,6 +27,7 @@ public class Dice : MonoBehaviour
     }
 
     public bool roomCalcDone = false;
+    public bool working = true;
 
     Animator anim;
 
@@ -37,6 +38,11 @@ public class Dice : MonoBehaviour
 
     void Update()
     {
+        if (roomCalcDone)
+        {
+            diceblock = true;
+        }
+
         if (Input.GetKeyDown(KeyCode.Space) && !diceblock)
         {
             diceblock = true;
@@ -64,11 +70,19 @@ public class Dice : MonoBehaviour
             diceblock = false;
         }
 
-        if (counter == 4)
+        float newTime = 0.0f;
+
+        if (counter >= 4 && working)
         {
+            newTime = Time.time;
+            working = false;
             StartCoroutine(DiceCR());
         }
 
+        if ((Time.time - newTime) >= 10f && working)
+        {
+            roomCalcDone = false;
+        }
     }
 
     IEnumerator DiceCR()
@@ -86,9 +100,10 @@ public class Dice : MonoBehaviour
     }
 
 
-    public void ResetDiceCounter()
+    public void ResetDice()
     {
-        roomCalcDone = false;
+        working = true;
+        diceblock = false;
         counter = 0;
         _roomCalc = 0;
     }

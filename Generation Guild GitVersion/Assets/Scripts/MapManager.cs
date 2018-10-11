@@ -27,11 +27,9 @@ public class MapManager : MonoBehaviour
     bool greenOut = false;
     bool typesDone = false;
 
-    Animator anim;
-
     private void Update()
     {
-        if(dice.roomCalcDone && !doMap)
+        if(dice.roomCalcDone && !doMap && !mapOut)
         {
             roomNumber = dice.roomCalc;
             dice.roomCalcDone = false;
@@ -42,29 +40,13 @@ public class MapManager : MonoBehaviour
         {
             doMap = false;
 
+            dice.roomCalcDone = false;
+
             cards = new Card[roomNumber];
 
             CreateMap();
         }
 
-
-        /*Testing*/
-
-        /*
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            CardTypeGeneration();
-        }
-
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            AddEventToCard();
-        }*/
-
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            Remake();
-        }
     }
 
     //Generates Route for the RoomCards to "appear"
@@ -228,12 +210,17 @@ public class MapManager : MonoBehaviour
     //Couritine so the cards can have a flow 
     IEnumerator AppearCR()
     {
+        Animator anim;
+
         for (int i = 0; i < cards.Length;i++)
         {
-            cards[i].activated = true;
-            anim = cards[i].gameObject.GetComponent<Animator>();
-            anim.SetTrigger("AppearCard");
-            yield return new WaitForSeconds(0.03f);
+            if (!cards[i].activated)
+            {
+                cards[i].activated = true;
+                anim = cards[i].gameObject.GetComponent<Animator>();
+                anim.SetTrigger("AppearCard");
+                yield return new WaitForSeconds(0.03f);
+            }
         }
 
         mapOut = true;
@@ -241,14 +228,23 @@ public class MapManager : MonoBehaviour
     }
 
     //Reset variables to remake the map
-    void Remake()
+    public void Remake()
     {
+        dice.ResetDice();
+
+        mapOut = false;
+
+        typesDone = false;
+
+        Animator anim;
+
         foreach (Card c in cards)
         {
             c.activated = false;
-        }
 
-        dice.ResetDiceCounter();
+            anim = c.gameObject.GetComponent<Animator>();
+            anim.SetTrigger("RemakeMap");
+        }
     }
 
     //AddEvent to every RoomCard
