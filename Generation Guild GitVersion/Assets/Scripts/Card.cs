@@ -22,7 +22,7 @@ public class Card: MonoBehaviour
     private void Update()
     {
 
-        //Adding the number of events in each RoomCard
+        //Adding the number of events in each RoomCard (Resize())
         if (types.Length != eventNumb)
         {
             int diff = Mathf.Abs(types.Length - eventNumb);
