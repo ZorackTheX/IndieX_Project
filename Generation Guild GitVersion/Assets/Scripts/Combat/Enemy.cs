@@ -35,13 +35,7 @@ public class Enemy : MonoBehaviour
         }
         if(character.state == Character.StateMachine.DEAD)
         {
-            bool IsCheckedBattleOver = false;
-
-            if(!IsCheckedBattleOver)
-            {
-                BattleManager.instance.CheckBattleOver();
-                IsCheckedBattleOver = true;
-            }
+            gameObject.SetActive(false);
         }
     }
      public void ITakeDamage(float amount)

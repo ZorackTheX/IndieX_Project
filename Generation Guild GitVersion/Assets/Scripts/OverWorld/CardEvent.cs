@@ -149,6 +149,9 @@ public class CardEvent : MonoBehaviour
 
     public void RedRoom1()
     {
+        int rdmEnemies = Random.Range(0, 4);
+
+        BattleManager.instance.InstantiateEnemies(rdmEnemies);
         //Go to encounter
     }
 }

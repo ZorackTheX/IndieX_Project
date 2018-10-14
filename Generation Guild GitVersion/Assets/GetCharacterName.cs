@@ -12,7 +12,7 @@ public class GetCharacterName : MonoBehaviour
     }
     void GetCharName()
     {
-        foreach(var character in BattleManager.instance.characters)
+        foreach(var character in BattleManager.instance.inCombatCharacters)
         {
             Hero hero = character.GetComponent<Hero>();
             Enemy enemy = character.GetComponent<Enemy>();
