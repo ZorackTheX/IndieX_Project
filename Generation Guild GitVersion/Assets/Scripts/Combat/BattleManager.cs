@@ -26,8 +26,8 @@ public class BattleManager : MonoBehaviour
     }
     private void OnEnable()
     {
-        GetCharacters();
-        NextTurn();
+        //GetCharacters();
+        //NextTurn();
     }
 
 

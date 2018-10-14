@@ -5952,7 +5952,7 @@ MonoBehaviour:
       skillsAvailable: []
     statusEffects:
       statusEffectsApplied: []
-    state: 0
+    state: 1
     battleIndex: 0
   stats: {fileID: 11400000, guid: a7ae554fe1b50864a861dd0cf20b8593, type: 2}
   heroIndexes: 
@@ -6944,7 +6944,7 @@ MonoBehaviour:
       - {fileID: 11400000, guid: b3a93429f3ecd3b46b060e5b29793d41, type: 2}
     statusEffects:
       statusEffectsApplied: []
-    state: 0
+    state: 1
     battleIndex: 0
   stats: {fileID: 11400000, guid: 683279e8432828149bb7eb3b7101479d, type: 2}
   maxExperience: 0

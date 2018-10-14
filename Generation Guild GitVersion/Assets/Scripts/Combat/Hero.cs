@@ -8,6 +8,9 @@ public class Hero : MonoBehaviour
     public float maxExperience;
     public float experience;
 
+    //Need a bool to check if in combat
+    public bool inCombat = false;
+
     private void Awake()
     {
        
@@ -32,16 +35,6 @@ public class Hero : MonoBehaviour
         if(character.stats.health <= 0)
         {
             character.state = Character.StateMachine.DEAD;
-        }
-        if(character.state == Character.StateMachine.DEAD)
-        {
-            bool IsCheckedBattleOver = false;
-
-            if(!IsCheckedBattleOver)
-            {
-                BattleManager.instance.CheckBattleOver();
-                IsCheckedBattleOver = true;
-            }
         }
     }
 

@@ -1,13 +1,13 @@
 ﻿using UnityEngine.UI;
 using UnityEngine;
-
+using TMPro;
 public class GetCharacterName : MonoBehaviour
 {
-    Text nameText;
+    TextMeshProUGUI nameText;
 
     private void OnEnable()
     {
-        nameText = GetComponent<Text>();
+        nameText = GetComponent<TextMeshProUGUI>();
         GetCharName();
     }
     void GetCharName()
