@@ -8,6 +8,9 @@ public class Hero : MonoBehaviour
     public float maxExperience;
     public float experience;
 
+    //Need a bool to check if in combat
+    public bool inCombat = false;
+
     private void Awake()
     {
         SetStartingValues();
