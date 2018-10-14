@@ -24,11 +24,11 @@ public class ActionHandler
                 Enemy enemy = BattleManager.instance.characters[receiverIndex].GetComponent<Enemy>();
                 if (hero != null)
                 {
-                    hero.character.ITakeDamage(damageAmout);
+                    hero.ITakeDamage(damageAmout);
                 }
                 if (enemy != null)
                 {
-                    enemy.character.ITakeDamage(damageAmout);
+                    enemy.ITakeDamage(damageAmout);
                 }
             }
         }
@@ -45,6 +45,7 @@ public class ActionHandler
         {
             enemy.character.state = Character.StateMachine.END;
         }
+        BattleManager.instance.NextTurn();
     }
     public void DealAttackDamage(int receiverind, float damage)
     {
@@ -53,11 +54,11 @@ public class ActionHandler
 
             if (hero != null)
             {
-                hero.character.ITakeDamage(damage);
+                hero.ITakeDamage(damage);
             }
             if (enemy != null)
             {
-                enemy.character.ITakeDamage(damage);
+                enemy.ITakeDamage(damage);
             }
 
     }

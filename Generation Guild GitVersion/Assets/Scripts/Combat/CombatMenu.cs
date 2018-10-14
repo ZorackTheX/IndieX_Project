@@ -8,10 +8,11 @@ public class CombatMenu : MonoBehaviour
     public GameObject SkillChoiceMenu;
     public GameObject ConfirmSkillActionMenu;
 
-    private int dealer;
-    private int receiveIndex;
+    [Header("Attack Pointers")]
+    public int dealer;
+    public int receiveIndex;
     private List<int> skillReceivers;
-    private float damage;
+    public float damage;
     private List<StatusEffectsData> statusEffects;
     private int numberOfTargets;
     SkillsData skilldata;
@@ -36,8 +37,8 @@ public class CombatMenu : MonoBehaviour
             }
             if (enemy != null && enemy.character.state == Character.StateMachine.ACTION)
             {
-                //action.damageAmount = enemy.character.stats.strenght;
-                //action.dealerIndex = BattleManager.instance.characters.IndexOf(character);
+                damage = enemy.character.stats.strenght;
+                dealer = BattleManager.instance.characters.IndexOf(character);
                 break;
             }
         }
@@ -45,6 +46,10 @@ public class CombatMenu : MonoBehaviour
     public void AttackActionReceiver(TargetIndex targetIndex)
     {
             receiveIndex = targetIndex.Index;
+    }
+    public void EnemyAttackRceiver(int targetInd)
+    {
+        receiveIndex = targetInd;
     }
     public void Skill(SkillsData skillData)
     {

@@ -1,16 +1,16 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 public class Enemy : MonoBehaviour
 {
     public Character character;
     public NewStats stats;
-
+    public List<int> heroIndexes;
 
     // Start is called before the first frame update
     void Awake()
     {
        SetStartingValues();
-        
     }
 
     void SetStartingValues()
@@ -29,6 +29,24 @@ public class Enemy : MonoBehaviour
         {
             character.state = Character.StateMachine.DEAD;
         }
+        if(character.state == Character.StateMachine.ACTION)
+        {
+            CanvasScript.instance.CombatMenuObject.SetActive(true);
+        }
+        if(character.state == Character.StateMachine.DEAD)
+        {
+            bool IsCheckedBattleOver = false;
+
+            if(!IsCheckedBattleOver)
+            {
+                BattleManager.instance.CheckBattleOver();
+                IsCheckedBattleOver = true;
+            }
+        }
+    }
+     public void ITakeDamage(float amount)
+    {
+        character.stats.health -= amount;
     }
 
 }

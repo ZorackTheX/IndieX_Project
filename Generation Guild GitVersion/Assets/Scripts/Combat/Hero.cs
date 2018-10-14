@@ -10,6 +10,7 @@ public class Hero : MonoBehaviour
 
     private void Awake()
     {
+       
         SetStartingValues();
         SetExperienceValues();
     }
@@ -28,9 +29,19 @@ public class Hero : MonoBehaviour
         {
             CanvasScript.instance.CombatMenuObject.SetActive(true);
         }
-        if(character.stats.health <=0)
+        if(character.stats.health <= 0)
         {
             character.state = Character.StateMachine.DEAD;
+        }
+        if(character.state == Character.StateMachine.DEAD)
+        {
+            bool IsCheckedBattleOver = false;
+
+            if(!IsCheckedBattleOver)
+            {
+                BattleManager.instance.CheckBattleOver();
+                IsCheckedBattleOver = true;
+            }
         }
     }
 
@@ -90,5 +101,8 @@ public class Hero : MonoBehaviour
     {
         character.stats.speed += stats.speedPerLevel;
     }
-
+    public virtual void ITakeDamage(float amount)
+    {
+        character.stats.health -= amount;
+    }
 }

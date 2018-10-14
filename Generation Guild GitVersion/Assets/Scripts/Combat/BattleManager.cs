@@ -24,15 +24,10 @@ public class BattleManager : MonoBehaviour
     private void OnEnable()
     {
         GetCharacters();
+        NextTurn();
     }
 
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.C))
-        {
-            NextTurn();
-        }
-    }
+
     private void GetCharacters()
     {
         Hero[] heroChars = FindObjectsOfType<Hero>();
@@ -51,10 +46,11 @@ public class BattleManager : MonoBehaviour
             //Debug.Log("Index: " + characters.IndexOf(enemy.gameObject));
         }
     }
-    void NextTurn()
+    public void NextTurn()
     {
         int caracterIndex = 0;
         float lastSpeed = 0.0f;
+        bool IsNooneAvailable = true;
 
         foreach(var character in characters)
         {
@@ -71,8 +67,9 @@ public class BattleManager : MonoBehaviour
                     }
                     else if (lastSpeed <= hero.character.stats.speed)
                     {
-                            caracterIndex = characters.IndexOf(character);
-                            lastSpeed = hero.character.stats.speed;
+                        caracterIndex = characters.IndexOf(character);
+                        lastSpeed = hero.character.stats.speed;
+                        IsNooneAvailable = false;
                     }
                 }
             }
@@ -88,12 +85,20 @@ public class BattleManager : MonoBehaviour
                     {
                         caracterIndex = characters.IndexOf(character);
                         lastSpeed = enemy.character.stats.speed;
+                        IsNooneAvailable = false;
                     }
                 }
             }
         }
-        StartTurn(caracterIndex);
-
+        if(!IsNooneAvailable)
+        {
+            StartTurn(caracterIndex);
+        }
+        else
+        {
+            ResetStateMachines();
+        }
+        
     }
     void StartTurn(int index)
     {
@@ -123,5 +128,59 @@ public class BattleManager : MonoBehaviour
             enemy.character.state = Character.StateMachine.END;
         }
         NextTurn();
+    }
+    void ResetStateMachines()
+    {
+        foreach(var character in characters)
+        {
+            Hero hero = character.GetComponent<Hero>();
+            Enemy enemy = character.GetComponent<Enemy>();
+
+            if(hero != null)
+            {
+                if(hero.character.state != Character.StateMachine.DEAD)
+                {
+                    hero.character.state = Character.StateMachine.WAIT;
+                }
+            }
+            if(enemy != null)
+            {
+                if(enemy.character.state != Character.StateMachine.DEAD)
+                {
+                    enemy.character.state = Character.StateMachine.WAIT;
+                }
+            }
+        }
+        NextTurn();
+    }
+    public void CheckBattleOver()
+    {
+        int numberOfHeros = 0 , numberofHerosDead = 0;
+        int numberOfEnemys = 0, numberOfEnemysDead = 0;
+
+        foreach(var character in BattleManager.instance.characters)
+        {
+            Hero hero = character.GetComponent<Hero>();
+            Enemy enemy = character.GetComponent<Enemy>();
+
+            if(hero != null)
+            {
+                numberOfHeros ++; 
+
+                if(hero.character.state == Character.StateMachine.DEAD)
+                {
+                    numberofHerosDead++;
+                }
+            }
+            if(enemy != null)
+            {
+                numberOfEnemys++;
+
+                if(enemy.character.state == Character.StateMachine.DEAD)
+                {
+                    numberOfEnemysDead++;
+                }
+            }
+        }
     }
 }
