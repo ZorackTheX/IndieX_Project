@@ -68,6 +68,9 @@ public class GamePlay : MonoBehaviour
 
             actualPosition = currentPosition;
 
+            player.transform.position = cards[currentPosition].transform.position;
+            currPos.position = player.transform.position;
+
             starting = false;
         }
 
@@ -106,7 +109,6 @@ public class GamePlay : MonoBehaviour
         //Commit
 
         player.transform.position = cards[currentPosition].transform.position;
-        currPos.position = player.transform.position;
     }
 
     bool CheckCardPath(int number)
