@@ -137,9 +137,9 @@ public class GamePlay : MonoBehaviour
 
             currPos.position = player.transform.position;
 
+            lockMove = true;
             ChooseEvent();
 
-            lockMove = true;
         }
     }
 

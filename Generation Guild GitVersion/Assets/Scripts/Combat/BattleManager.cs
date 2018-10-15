@@ -210,7 +210,7 @@ public class BattleManager : MonoBehaviour
                 if(hero != null)
                 {
                     hero.experience += 100;
-                    
+                    hero.character.state = Character.StateMachine.END;
                 }
             }
             for(int i = inCombatCharacters.Count -1; i >= 0; i--)

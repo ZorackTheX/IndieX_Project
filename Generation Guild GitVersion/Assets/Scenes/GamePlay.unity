@@ -4387,7 +4387,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a03a668a74c3eb4f9e43b387840966e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UIPanel: {fileID: 0}
+  UIPanel: {fileID: 765888882}
   CombatMenuObject: {fileID: 1037177770}
   YouLoseMenu: {fileID: 1912544538}
   Cards: {fileID: 207535564}
