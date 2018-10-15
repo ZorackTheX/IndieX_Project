@@ -55,6 +55,7 @@ public class BattleManager : MonoBehaviour
                 //Debug.Log("Index: " + characters.IndexOf(enemy.gameObject));
             }
         }
+        NextTurn();
     }
     public void NextTurn()
     {
@@ -217,9 +218,9 @@ public class BattleManager : MonoBehaviour
     {
         for (int i = 0; i < number; i++)
         {
-            int rngEnemyType = Random.Range(0, enemies.Length);
+            int rngEnemyType = Random.Range(0, enemies.Length-1);
             
-            var instatiatedEnemy = Instantiate(enemies[rngEnemyType]);
+            Instantiate(enemies[rngEnemyType]);
             
         }
         GetCharacters();

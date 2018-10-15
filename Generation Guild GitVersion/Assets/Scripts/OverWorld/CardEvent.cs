@@ -15,6 +15,7 @@ public class CardEvent : MonoBehaviour
     //If you die everybody loses
     public void PurpleCursed1(Hero hero)
     {
+        Debug.Log("You die, they lose");
         if (hero.stats.health <= 0 && hero.inCombat)
         {
             //GameOver for party
@@ -29,6 +30,7 @@ public class CardEvent : MonoBehaviour
     //You lose 10% hp
     public void PurpleTrap1(Hero hero)
     {
+        Debug.Log("Lose 10% hp");
         if ((hero.stats.health*100)/hero.stats.maxHealth > 10)
         {
             hero.stats.health -= (10 * hero.stats.maxHealth / 100);
@@ -38,6 +40,7 @@ public class CardEvent : MonoBehaviour
     //No heal next Combat
     public void PurpleTrap4(Hero hero)
     {
+        Debug.Log("No healing");
         if (!hero.inCombat)
         {
             //Store no heal
@@ -47,6 +50,7 @@ public class CardEvent : MonoBehaviour
     //Get double xp
     public void PurpleGoodie1(Hero hero)
     {
+        Debug.Log("Double Exp next batlle");
         if (!hero.inCombat)
         {
             //Store double xp
@@ -58,6 +62,7 @@ public class CardEvent : MonoBehaviour
     //One party member dies everybody loses
     public void BlueCursed1(Hero[] heroes)
     {
+        Debug.Log("One Member dies, party loses the game");
         foreach (Hero h in heroes)
         {
             if (h.inCombat && h.stats.health <= 0)
@@ -76,6 +81,7 @@ public class CardEvent : MonoBehaviour
     //Reduced 5% heal for all party
     public void BlueCursed2(Hero[] heroes)
     {
+        Debug.Log("ReduceHeal");
         foreach (Hero h in heroes)
         {
             if (!h.inCombat)
@@ -88,6 +94,7 @@ public class CardEvent : MonoBehaviour
     //Revive
     public void BlueGoodie2(Hero[] heroes)
     {
+        Debug.Log("Revive");
         bool alive = false;
         int[] j = new int[heroes.Length];
         int counter = 0;
@@ -134,12 +141,14 @@ public class CardEvent : MonoBehaviour
     //Naifa de sao mamada
     public void YellowItem1(Hero hero)
     {
+        Debug.Log("Item : Naifa");
         //Get to hero item Naifa de sao mamada - Instakill
     }
 
     //Health Potion
     public void YellowItem2(GamePlay gp)
     {
+        Debug.Log("Item : Health Potion");
         //Store potion
 
 
@@ -149,6 +158,8 @@ public class CardEvent : MonoBehaviour
 
     public void RedRoom1()
     {
+
+        Debug.Log("Combat");
         int rdmEnemies = Random.Range(0, 4);
 
         BattleManager.instance.InstantiateEnemies(rdmEnemies);
