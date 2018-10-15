@@ -8,10 +8,11 @@ public class CombatMenu : MonoBehaviour
     public GameObject SkillChoiceMenu;
     public GameObject ConfirmSkillActionMenu;
 
-    private int dealer;
-    private int receiveIndex;
+    [Header("Attack Pointers")]
+    public int dealer;
+    public int receiveIndex;
     private List<int> skillReceivers;
-    private float damage;
+    public float damage;
     private List<StatusEffectsData> statusEffects;
     private int numberOfTargets;
     SkillsData skilldata;
@@ -23,7 +24,7 @@ public class CombatMenu : MonoBehaviour
     }
     public void Attack()
     {
-        foreach(var character in BattleManager.instance.characters)
+        foreach(var character in BattleManager.instance.inCombatCharacters)
         {
             Hero hero = character.GetComponent<Hero>();
             Enemy enemy = character.GetComponent<Enemy>();
@@ -31,13 +32,13 @@ public class CombatMenu : MonoBehaviour
             if (hero != null && hero.character.state == Character.StateMachine.ACTION)
             {
                 damage = hero.character.stats.strenght;
-                dealer = BattleManager.instance.characters.IndexOf(character);
+                dealer = BattleManager.instance.inCombatCharacters.IndexOf(character);
                 break;
             }
             if (enemy != null && enemy.character.state == Character.StateMachine.ACTION)
             {
-                //action.damageAmount = enemy.character.stats.strenght;
-                //action.dealerIndex = BattleManager.instance.characters.IndexOf(character);
+                damage = enemy.character.stats.strenght;
+                dealer = BattleManager.instance.inCombatCharacters.IndexOf(character);
                 break;
             }
         }
@@ -46,16 +47,20 @@ public class CombatMenu : MonoBehaviour
     {
             receiveIndex = targetIndex.Index;
     }
+    public void EnemyAttackRceiver(int targetInd)
+    {
+        receiveIndex = targetInd;
+    }
     public void Skill(SkillsData skillData)
     {
-        foreach (var character in BattleManager.instance.characters)
+        foreach (var character in BattleManager.instance.inCombatCharacters)
         {
             Hero hero = character.GetComponent<Hero>();
             Enemy enemy = character.GetComponent<Enemy>();
 
             if (hero != null && hero.character.state == Character.StateMachine.ACTION)
             {
-                dealer = BattleManager.instance.characters.IndexOf(character);
+                dealer = BattleManager.instance.inCombatCharacters.IndexOf(character);
                 numberOfTargets = skillData.skillHandler.Length;
                 skilldata = skillData;
                 Debug.Log("Target Array Lenght: " + skillData.skillHandler.Length);
@@ -101,7 +106,6 @@ public class CombatMenu : MonoBehaviour
             SkillChoiceMenu.SetActive(false);
             ConfirmSkillActionMenu.SetActive(true);
         }
-        //Debug.Log("Targets picked? " + (filledChoices == numberOfTargets));
     }
     public void ConfirmActionAttack()
     {

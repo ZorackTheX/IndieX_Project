@@ -13,7 +13,7 @@ public class GetASkill : MonoBehaviour
 
     private void SetSkillNames()
     {
-        foreach (var character in BattleManager.instance.characters)
+        foreach (var character in BattleManager.instance.inCombatCharacters)
         {
             Hero hero = character.GetComponent<Hero>();
             Enemy enemy = character.GetComponent<Enemy>();
@@ -35,7 +35,7 @@ public class GetASkill : MonoBehaviour
 
     public void SendSkills()
     {
-        foreach (var character in BattleManager.instance.characters)
+        foreach (var character in BattleManager.instance.inCombatCharacters)
         {
             Hero hero = character.GetComponent<Hero>();
             Enemy enemy = character.GetComponent<Enemy>();

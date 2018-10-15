@@ -3,8 +3,8 @@ public class ActionHandler
 {
     public void ChangeDealerState(int dealerIndex)
     {
-        Hero hero = BattleManager.instance.characters[dealerIndex].GetComponent<Hero>();
-        Enemy enemy = BattleManager.instance.characters[dealerIndex].GetComponent<Enemy>();
+        Hero hero = BattleManager.instance.inCombatCharacters[dealerIndex].GetComponent<Hero>();
+        Enemy enemy = BattleManager.instance.inCombatCharacters[dealerIndex].GetComponent<Enemy>();
         if (hero != null)
         {
             hero.character.state = Character.StateMachine.PERFORM;
@@ -20,23 +20,23 @@ public class ActionHandler
         {
             foreach (var receiverIndex in receivers)
             {
-                Hero hero = BattleManager.instance.characters[receiverIndex].GetComponent<Hero>();
-                Enemy enemy = BattleManager.instance.characters[receiverIndex].GetComponent<Enemy>();
+                Hero hero = BattleManager.instance.inCombatCharacters[receiverIndex].GetComponent<Hero>();
+                Enemy enemy = BattleManager.instance.inCombatCharacters[receiverIndex].GetComponent<Enemy>();
                 if (hero != null)
                 {
-                    hero.character.ITakeDamage(damageAmout);
+                    hero.ITakeDamage(damageAmout);
                 }
                 if (enemy != null)
                 {
-                    enemy.character.ITakeDamage(damageAmout);
+                    enemy.ITakeDamage(damageAmout);
                 }
             }
         }
     }
     public void EndDealerState(int index)
     {
-        Hero hero = BattleManager.instance.characters[index].GetComponent<Hero>();
-        Enemy enemy = BattleManager.instance.characters[index].GetComponent<Enemy>();
+        Hero hero = BattleManager.instance.inCombatCharacters[index].GetComponent<Hero>();
+        Enemy enemy = BattleManager.instance.inCombatCharacters[index].GetComponent<Enemy>();
         if (hero != null)
         {
             hero.character.state = Character.StateMachine.END;
@@ -45,19 +45,20 @@ public class ActionHandler
         {
             enemy.character.state = Character.StateMachine.END;
         }
+        BattleManager.instance.NextTurn();
     }
     public void DealAttackDamage(int receiverind, float damage)
     {
-            Hero hero = BattleManager.instance.characters[receiverind].GetComponent<Hero>();
-            Enemy enemy = BattleManager.instance.characters[receiverind].GetComponent<Enemy>();
+            Hero hero = BattleManager.instance.inCombatCharacters[receiverind].GetComponent<Hero>();
+            Enemy enemy = BattleManager.instance.inCombatCharacters[receiverind].GetComponent<Enemy>();
 
             if (hero != null)
             {
-                hero.character.ITakeDamage(damage);
+                hero.ITakeDamage(damage);
             }
             if (enemy != null)
             {
-                enemy.character.ITakeDamage(damage);
+                enemy.ITakeDamage(damage);
             }
 
     }
@@ -75,15 +76,15 @@ public class ActionHandler
             switch(tag.tag)
             {
                 case (HyperTag.Tag.All):
-                    foreach(var character in BattleManager.instance.characters)
+                    foreach(var character in BattleManager.instance.inCombatCharacters)
                     {
                         if (tag.skilldamage != 0)
                         {
-                            DealAttackDamage(BattleManager.instance.characters.IndexOf(character), tag.skilldamage);
+                            DealAttackDamage(BattleManager.instance.inCombatCharacters.IndexOf(character), tag.skilldamage);
                         }
                         if (tag.status.Length > 0)
                         {
-                            AddEffect(BattleManager.instance.characters.IndexOf(character), tag.status[0]);
+                            AddEffect(BattleManager.instance.inCombatCharacters.IndexOf(character), tag.status[0]);
                         }
                     }
                     break;
@@ -115,8 +116,8 @@ public class ActionHandler
 
     private static void AddEffect(int receiverind, StatusEffectsData status)
     {
-        Hero hero = BattleManager.instance.characters[receiverind].GetComponent<Hero>();
-        Enemy enemy = BattleManager.instance.characters[receiverind].GetComponent<Enemy>();
+        Hero hero = BattleManager.instance.inCombatCharacters[receiverind].GetComponent<Hero>();
+        Enemy enemy = BattleManager.instance.inCombatCharacters[receiverind].GetComponent<Enemy>();
 
         if (hero != null)
         {

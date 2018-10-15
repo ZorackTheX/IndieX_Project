@@ -5,8 +5,7 @@ using UnityEngine.UI;
 public class TargetingChoicesScript : MonoBehaviour
 {
     public TargetIndex[] buttonTargets = new TargetIndex[8];
-
-
+    int lastIndex;
     private void OnEnable()
     {
         SettingUpIndexes();
@@ -14,57 +13,60 @@ public class TargetingChoicesScript : MonoBehaviour
     
     private void SettingUpIndexes()
     {
-        foreach (var chars in BattleManager.instance.characters)
+        if(buttonTargets.Length - BattleManager.instance.inCombatCharacters.Count > 0)
         {
-            foreach (var button in buttonTargets)
+            for(int i = 0; i < buttonTargets.Length - BattleManager.instance.inCombatCharacters.Count; i++)
             {
-                bool IsAllowed = true;
-                Hero    hero    = chars.GetComponent<Hero>();
-                Enemy   enemy   = chars.GetComponent<Enemy>();
-                if (button.gameObject.activeInHierarchy)
-                {
-                    if (!button.IsFilled )
-                    {
-
-                        if (hero != null)
-                        {
-                            if (hero.character.state == Character.StateMachine.DEAD)
-                            {
-                                button.gameObject.SetActive(false);
-                                IsAllowed = false;
-                                break;
-                            }
-                        }
-                        if (enemy != null)
-                        {
-                            if (enemy.character.state == Character.StateMachine.DEAD)
-                            {
-                                IsAllowed = false;
-                                button.gameObject.SetActive(false);
-                                break;
-                            }
-                        }
-                        if(IsAllowed)
-                        {
-                            button.Index = BattleManager.instance.characters.IndexOf(chars);
-                            button.IsFilled = true;
-                            Text text = button.GetComponentInChildren<Text>();
-                            text.text = chars.gameObject.name;
-                            IsAllowed = true;
-                            break;
-                        }
-                    }
-                }
-
+                buttonTargets[i].gameObject.SetActive(false);
             }
         }
-    }
-
-    private void OnDisable()
-    {
-        foreach (var button in buttonTargets)
+        foreach (var chars in BattleManager.instance.inCombatCharacters)
         {
-            button.IsFilled = false;
+            bool IsAllowed = true;
+            Hero hero = chars.GetComponent<Hero>();
+            Enemy enemy = chars.GetComponent<Enemy>();
+            
+            if(hero != null)
+            {
+                if(hero.character.state == Character.StateMachine.DEAD)
+                {
+                    IsAllowed = false;
+                }
+            }
+            if(enemy != null)
+            {
+                if(enemy.character.state == Character.StateMachine.DEAD)
+                {
+                    IsAllowed = false;
+                }
+            }
+            
+            foreach (var button in buttonTargets)
+            {
+                if (!button.IsFilled)
+                {
+                    if(IsAllowed)
+                    {
+                        button.Index = BattleManager.instance.inCombatCharacters.IndexOf(chars);
+                        button.IsFilled = true;
+                        Text text = button.GetComponentInChildren<Text>();
+                        text.text = chars.gameObject.name;
+
+                        break;
+                    }
+                    else
+                    {
+                        button.IsFilled = true;
+                        Button buttonInteraction = button.GetComponent<Button>();
+                        buttonInteraction.interactable = false;
+
+                        Image buttonImage = button.GetComponent<Image>();
+                        buttonImage.color = new Color(20, 20, 20, 250);
+
+                        break;
+                    }
+                }
+            }
         }
     }
 }

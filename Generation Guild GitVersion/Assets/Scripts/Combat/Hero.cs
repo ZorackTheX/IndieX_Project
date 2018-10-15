@@ -13,6 +13,7 @@ public class Hero : MonoBehaviour
 
     private void Awake()
     {
+       
         SetStartingValues();
         SetExperienceValues();
     }
@@ -31,7 +32,7 @@ public class Hero : MonoBehaviour
         {
             CanvasScript.instance.CombatMenuObject.SetActive(true);
         }
-        if(character.stats.health <=0)
+        if(character.stats.health <= 0)
         {
             character.state = Character.StateMachine.DEAD;
         }
@@ -93,5 +94,8 @@ public class Hero : MonoBehaviour
     {
         character.stats.speed += stats.speedPerLevel;
     }
-
+    public virtual void ITakeDamage(float amount)
+    {
+        character.stats.health -= amount;
+    }
 }

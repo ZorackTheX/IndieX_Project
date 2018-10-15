@@ -6,7 +6,10 @@ public class BattleManager : MonoBehaviour
 {
     public static BattleManager instance;
 
-    public List<GameObject> characters = new List<GameObject>();
+    public List<GameObject> inCombatCharacters = new List<GameObject>();
+
+    [SerializeField]
+    private Enemy[] enemies;
 
     void Awake()
     {
@@ -23,16 +26,11 @@ public class BattleManager : MonoBehaviour
     }
     private void OnEnable()
     {
-        GetCharacters();
+        //GetCharacters();
+        //NextTurn();
     }
 
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.C))
-        {
-            NextTurn();
-        }
-    }
+
     private void GetCharacters()
     {
         Hero[] heroChars = FindObjectsOfType<Hero>();
@@ -40,23 +38,32 @@ public class BattleManager : MonoBehaviour
 
         foreach(var hero in heroChars)
         {
-            characters.Add(hero.gameObject);
-            hero.character.battleIndex = characters.IndexOf(hero.gameObject);
-            //Debug.Log("Index: " + characters.IndexOf(hero.gameObject));
+            if(hero.character.state != Character.StateMachine.DEAD)
+            {
+                inCombatCharacters.Add(hero.gameObject);
+                hero.character.battleIndex = inCombatCharacters.IndexOf(hero.gameObject);
+                //Debug.Log("Index: " + characters.IndexOf(hero.gameObject));
+            }
+
         }
         foreach(var enemy in enemyChars)
         {
-            characters.Add(enemy.gameObject);
-            enemy.character.battleIndex = characters.IndexOf(enemy.gameObject);
-            //Debug.Log("Index: " + characters.IndexOf(enemy.gameObject));
+            if(enemy.character.state != Character.StateMachine.DEAD)
+            {
+                inCombatCharacters.Add(enemy.gameObject);
+                enemy.character.battleIndex = inCombatCharacters.IndexOf(enemy.gameObject);
+                //Debug.Log("Index: " + characters.IndexOf(enemy.gameObject));
+            }
         }
+        NextTurn();
     }
-    void NextTurn()
+    public void NextTurn()
     {
         int caracterIndex = 0;
         float lastSpeed = 0.0f;
-
-        foreach(var character in characters)
+        bool IsNooneAvailable = true;
+        if (CheckBattleOver()) return;
+        foreach(var character in inCombatCharacters)
         {
             Hero hero = character.GetComponent<Hero>();
             Enemy enemy = character.GetComponent<Enemy>();
@@ -71,8 +78,9 @@ public class BattleManager : MonoBehaviour
                     }
                     else if (lastSpeed <= hero.character.stats.speed)
                     {
-                            caracterIndex = characters.IndexOf(character);
-                            lastSpeed = hero.character.stats.speed;
+                        caracterIndex = inCombatCharacters.IndexOf(character);
+                        lastSpeed = hero.character.stats.speed;
+                        IsNooneAvailable = false;
                     }
                 }
             }
@@ -86,19 +94,26 @@ public class BattleManager : MonoBehaviour
                     }
                     else if (lastSpeed <= enemy.character.stats.speed)
                     {
-                        caracterIndex = characters.IndexOf(character);
+                        caracterIndex = inCombatCharacters.IndexOf(character);
                         lastSpeed = enemy.character.stats.speed;
+                        IsNooneAvailable = false;
                     }
                 }
             }
         }
-        StartTurn(caracterIndex);
-
+        if(!IsNooneAvailable)
+        {
+            StartTurn(caracterIndex);
+        }
+        else
+        {
+            ResetStateMachines();
+        }
     }
     void StartTurn(int index)
     {
-        Hero hero = characters[index].GetComponent<Hero>();
-        Enemy enemy = characters[index].GetComponent<Enemy>();
+        Hero hero = inCombatCharacters[index].GetComponent<Hero>();
+        Enemy enemy = inCombatCharacters[index].GetComponent<Enemy>();
 
         if(hero != null)
         {
@@ -111,8 +126,8 @@ public class BattleManager : MonoBehaviour
     }
     void EndTurn(int turnIndex)
     {
-        Hero hero = characters[turnIndex].GetComponent<Hero>();
-        Enemy enemy = characters[turnIndex].GetComponent<Enemy>();
+        Hero hero = inCombatCharacters[turnIndex].GetComponent<Hero>();
+        Enemy enemy = inCombatCharacters[turnIndex].GetComponent<Enemy>();
 
         if (hero != null)
         {
@@ -123,5 +138,91 @@ public class BattleManager : MonoBehaviour
             enemy.character.state = Character.StateMachine.END;
         }
         NextTurn();
+    }
+    void ResetStateMachines()
+    {
+        foreach(var character in inCombatCharacters)
+        {
+            Hero hero = character.GetComponent<Hero>();
+            Enemy enemy = character.GetComponent<Enemy>();
+
+            if(hero != null)
+            {
+                if(hero.character.state != Character.StateMachine.DEAD)
+                {
+                    hero.character.state = Character.StateMachine.WAIT;
+                }
+            }
+            if(enemy != null)
+            {
+                if(enemy.character.state != Character.StateMachine.DEAD)
+                {
+                    enemy.character.state = Character.StateMachine.WAIT;
+                }
+            }
+        }
+        NextTurn();
+    }
+    public bool CheckBattleOver()
+    {
+        int numberOfHeros = 0 , numberofHerosDead = 0;
+        int numberOfEnemys = 0, numberOfEnemysDead = 0;
+
+        foreach(var character in inCombatCharacters)
+        {
+            Hero hero = character.GetComponent<Hero>();
+            Enemy enemy = character.GetComponent<Enemy>();
+
+            if(hero != null)
+            {
+                numberOfHeros ++; 
+
+                if(hero.character.state == Character.StateMachine.DEAD)
+                {
+                    numberofHerosDead++;
+                }
+            }
+            if(enemy != null)
+            {
+                numberOfEnemys++;
+
+                if(enemy.character.state == Character.StateMachine.DEAD)
+                {
+                    numberOfEnemysDead++;
+                }
+            }
+        }
+        Debug.Log("Heros: " + numberOfHeros);
+        Debug.Log("Heros ded: " + numberofHerosDead);
+        Debug.Log("Enemies: " + numberOfEnemys);
+        Debug.Log("Enemies Ded: " + numberOfEnemysDead);
+        if (numberOfEnemys == numberOfEnemysDead || numberOfHeros == numberofHerosDead)
+        {
+            Debug.Log("BattleOver");
+            CanvasScript.instance.gameObject.SetActive(false);
+
+            foreach(var character in inCombatCharacters)
+            {
+                Hero hero = character.GetComponent<Hero>();
+
+                if(hero != null)
+                {
+                    hero.experience += 100;
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+    public void InstantiateEnemies(int number)
+    {
+        for (int i = 0; i < number; i++)
+        {
+            int rngEnemyType = Random.Range(0, enemies.Length-1);
+            
+            Instantiate(enemies[rngEnemyType]);
+            
+        }
+        GetCharacters();
     }
 }

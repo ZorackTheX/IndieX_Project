@@ -30,7 +30,7 @@ public class StatusEffects
         statusEffectsApplied.Add(new StatusEffectsData(status, duration));
     }
     
-    public void RemoveATurn()
+    public void RemoveATurnFor(StatusEffectsData statusEffect)
     {
         foreach(var status in statusEffectsApplied)
         {
