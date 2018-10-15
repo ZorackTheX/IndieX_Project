@@ -23,7 +23,10 @@ public class CardEvent : MonoBehaviour
 
         if(heros[localRngValue] != null)
         {
-            heros[localRngValue].IsDeathCursed = true;
+            if(heros[localRngValue].character.state != Character.StateMachine.DEAD)
+            {
+                heros[localRngValue].IsDeathCursed = true;
+            }
         }
         
     }
@@ -99,8 +102,11 @@ public class CardEvent : MonoBehaviour
         {
             if(hero != null)
             {
-                //Store If you die you all lose bool
-                hero.IsDeathCursed = true;
+                if(hero.character.state != Character.StateMachine.DEAD)
+                {
+                    //Store If you die you all lose bool
+                    hero.IsDeathCursed = true;
+                }
             }
         }
     }
@@ -166,7 +172,7 @@ public class CardEvent : MonoBehaviour
     {
 
         Debug.Log("Combat");
-        int rdmEnemies = Random.Range(0, 4);
+        int rdmEnemies = Random.Range(1, 4);
 
         BattleManager.instance.InstantiateEnemies(rdmEnemies);
         //Go to encounter

@@ -5,7 +5,7 @@ public class Enemy : MonoBehaviour
 {
     public Character character;
     public NewStats stats;
-    public List<int> heroIndexes;
+
 
     // Start is called before the first frame update
     void Awake()

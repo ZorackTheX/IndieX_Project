@@ -14,7 +14,7 @@ public class GamePlay : MonoBehaviour
 
     bool starting = true;
     bool newEvent = true;
-    bool lockMove = false;
+    public bool lockMove = false;
     public int currentPosition = 0;
     public int actualPosition = 0;
     public Transform currPos;
@@ -152,19 +152,40 @@ public class GamePlay : MonoBehaviour
 
         if(cards[actualPosition].types.Length == 1)
         {
+            Animator localanimu = cards[actualPosition].GetComponent<Animator>(); 
             switch (cards[actualPosition].types[0])
             {
                 case Card.Type.Purple:
                     DoPurpleEvents();
+                    //AnimateShowPurpleEvent
+                    if (localanimu != null)
+                    {
+                        localanimu.SetBool("IsPurple", true);
+                    }
                     break;
                 case Card.Type.Blue:
                     DoBlueEvents();
+                    //AnimateShowblueEvent
+                    if (localanimu != null)
+                    {
+                        localanimu.SetBool("IsBlue", true);
+                    }
                     break;
                 case Card.Type.Yellow:
                     DoYellowEvents(ChooseCharacter());
+                    //AnimateShowPurpleEvent
+                    if (localanimu != null)
+                    {
+                        localanimu.SetBool("IsYellow", true);
+                    }
                     break;
                 case Card.Type.Red:
                     DoRedEvents();
+                    //AnimateShowPurpleEvent
+                    if (localanimu != null)
+                    {
+                        localanimu.SetBool("IsRed", true);
+                    }
                     break;
             }
         }

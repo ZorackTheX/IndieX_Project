@@ -29,7 +29,10 @@ public class BattleManager : MonoBehaviour
         //GetCharacters();
         //NextTurn();
     }
-
+    private void Update()
+    {
+        CheckBattleOver();
+    }
 
     private void GetCharacters()
     {
@@ -208,8 +211,16 @@ public class BattleManager : MonoBehaviour
                 if(hero != null)
                 {
                     hero.experience += 100;
+                    
                 }
             }
+            for(int i = inCombatCharacters.Count -1; i >= 0; i--)
+            {
+                inCombatCharacters.RemoveAt(i);
+            }
+            GamePlay gP = FindObjectOfType<GamePlay>();
+
+            gP.lockMove = false;
             return true;
         }
         return false;
