@@ -13,124 +13,130 @@ public class CardEvent : MonoBehaviour
     //---------------------------------Purple--------------------------------//
 
     //If you die everybody loses
-    public void PurpleCursed1(Hero hero)
+    public void PurpleCursed1()
     {
         Debug.Log("You die, they lose");
-        if (hero.stats.health <= 0 && hero.inCombat)
-        {
-            //GameOver for party
-        }
 
-        if (!hero.inCombat)
+        Hero[] heros = FindObjectsOfType<Hero>();
+
+        int localRngValue = Random.Range(0, heros.Length - 1);
+
+        if(heros[localRngValue] != null)
         {
-            //Store a counter of 
+            heros[localRngValue].IsDeathCursed = true;
         }
+        
     }
 
     //You lose 10% hp
-    public void PurpleTrap1(Hero hero)
+    public void PurpleTrap1()
     {
         Debug.Log("Lose 10% hp");
-        if ((hero.stats.health*100)/hero.stats.maxHealth > 10)
+
+        Hero[] heros = FindObjectsOfType<Hero>();
+
+        int localRngValue = Random.Range(0, heros.Length - 1);
+
+        if(heros[localRngValue] != null)
         {
-            hero.stats.health -= (10 * hero.stats.maxHealth / 100);
+            if ((heros[localRngValue].stats.health * 100) / heros[localRngValue].stats.maxHealth > 10)
+            {
+                heros[localRngValue].stats.health -= (10 * heros[localRngValue].stats.maxHealth / 100);
+            }
+        }
+        else
+        {
+            PurpleTrap1();
         }
     }
 
     //No heal next Combat
-    public void PurpleTrap4(Hero hero)
+    public void PurpleTrap4()
     {
         Debug.Log("No healing");
-        if (!hero.inCombat)
+        Hero[] heros = FindObjectsOfType<Hero>();
+
+        int localRngValue = Random.Range(0, heros.Length - 1);
+
+        if (heros[localRngValue] != null)
         {
             //Store no heal
-        }   
+            heros[localRngValue].IsNoHealing = true;
+        }
+        else
+        {
+            PurpleTrap4();
+        }
     } 
 
     //Get double xp
-    public void PurpleGoodie1(Hero hero)
+    public void PurpleGoodie1()
     {
         Debug.Log("Double Exp next batlle");
-        if (!hero.inCombat)
+        Hero[] heros = FindObjectsOfType<Hero>();
+
+        int localRngValue = Random.Range(0, heros.Length - 1);
+
+        if (heros[localRngValue] != null)
         {
-            //Store double xp
+            heros[localRngValue].IsDoubleExp = true;
+        }
+        else
+        {
+            PurpleGoodie1();
         }
     }
 
     //---------------------------------Blue--------------------------------//
 
     //One party member dies everybody loses
-    public void BlueCursed1(Hero[] heroes)
+    public void BlueCursed1()
     {
         Debug.Log("One Member dies, party loses the game");
-        foreach (Hero h in heroes)
-        {
-            if (h.inCombat && h.stats.health <= 0)
-            {
-                //GameOver for party
-                break;
-            }
+        Hero[] heros = FindObjectsOfType<Hero>();
 
-            if (!h.inCombat)
+        foreach (var hero in heros)
+        {
+            if(hero != null)
             {
-                //Store a counter of 
+                //Store If you die you all lose bool
+                hero.IsDeathCursed = true;
             }
         }
     }
 
     //Reduced 5% heal for all party
-    public void BlueCursed2(Hero[] heroes)
+    public void BlueCursed2()
     {
         Debug.Log("ReduceHeal");
-        foreach (Hero h in heroes)
+        Hero[] heros = FindObjectsOfType<Hero>();
+
+        foreach (var hero in heros)
         {
-            if (!h.inCombat)
+            if(hero != null)
             {
-                //Store 5% less heal
+                if(hero.character.state != Character.StateMachine.DEAD)
+                {
+                    hero.IsReducedHealing = true;
+                }
             }
         }
     }
 
     //Revive
-    public void BlueGoodie2(Hero[] heroes)
+    public void BlueGoodie2()
     {
         Debug.Log("Revive");
-        bool alive = false;
-        int[] j = new int[heroes.Length];
-        int counter = 0;
+        Hero[] heros = FindObjectsOfType<Hero>();
 
-        for (int k = 0; k < j.Length; k++)
+        foreach(var hero in heros)
         {
-            j[k] = 0;
-        }
-
-        for (int i = 0; i < heroes.Length; i++)
-        {
-            Hero h = heroes[i];
-
-            if (!alive && h.stats.health <= 0.0f)
+            if(hero != null)
             {
-                h.stats.health = (h.stats.maxHealth * 75) / 100;
-                j[i] = 1;
-                counter++;
-
-                if (i == heroes.Length)
+                if(hero.character.state == Character.StateMachine.DEAD)
                 {
-                    alive = true;
-                    i = -1;
-                }
-            }
-
-            if (alive && j[i] == 1)
-            {
-                if ((h.stats.health * 100) / h.stats.maxHealth > 10)
-                {
-                    h.stats.maxHealth -= (counter*10 * h.stats.maxHealth / 100);
-
-                    if (h.stats.maxHealth < h.stats.health)
-                    {
-                        h.stats.health = h.stats.maxHealth;
-                    }
+                    hero.character.stats.health = hero.character.stats.maxHealth;
+                    hero.character.state = Character.StateMachine.WAIT;
                 }
             }
         }

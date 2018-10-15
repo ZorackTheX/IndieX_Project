@@ -8,6 +8,11 @@ public class Hero : MonoBehaviour
     public float maxExperience;
     public float experience;
 
+    [Header("Boolean Curses")]
+    public bool IsNoHealing = false;
+    public bool IsReducedHealing = false;
+    public bool IsDeathCursed = false;
+    public bool IsDoubleExp = false;
     //Need a bool to check if in combat
     public bool inCombat = false;
 
@@ -36,6 +41,14 @@ public class Hero : MonoBehaviour
         {
             character.state = Character.StateMachine.DEAD;
         }
+        if(character.state == Character.StateMachine.DEAD )
+        {
+            if(IsDeathCursed)
+            {
+                CanvasScript.instance.CombatMenuObject.SetActive(false);
+                CanvasScript.instance.YouLoseMenu.SetActive(true);
+            }
+        }
     }
 
     private void SetExperienceValues()
@@ -56,7 +69,9 @@ public class Hero : MonoBehaviour
 
     public void AddExperience(float amount)
     {
-        experience += amount;
+        if (IsDoubleExp) experience += amount * 2.0f;
+        else experience += amount;
+
         if(experience > maxExperience)
         {
             experience -= maxExperience;
@@ -96,6 +111,15 @@ public class Hero : MonoBehaviour
     }
     public virtual void ITakeDamage(float amount)
     {
-        character.stats.health -= amount;
+        if(amount < 0 )
+        {
+            if (IsReducedHealing) character.stats.health -= amount * 0.95f;
+            else if (IsNoHealing) return;
+            else character.stats.health -= amount;
+        }
+        else
+        {
+            character.stats.health -= amount;
+        }
     }
 }

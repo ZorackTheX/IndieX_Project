@@ -199,7 +199,7 @@ public class BattleManager : MonoBehaviour
         if (numberOfEnemys == numberOfEnemysDead || numberOfHeros == numberofHerosDead)
         {
             Debug.Log("BattleOver");
-            CanvasScript.instance.gameObject.SetActive(false);
+            CanvasScript.instance.CombatMenuObject.SetActive(false);
 
             foreach(var character in inCombatCharacters)
             {

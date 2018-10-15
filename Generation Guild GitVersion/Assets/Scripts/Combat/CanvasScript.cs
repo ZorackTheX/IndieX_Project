@@ -3,7 +3,9 @@
 public class CanvasScript : MonoBehaviour
 {
     public static CanvasScript instance;
+    public GameObject UIPanel;
     public GameObject CombatMenuObject;
+    public GameObject YouLoseMenu;
 
     private void Awake()
     {
@@ -16,9 +18,5 @@ public class CanvasScript : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(gameObject);
         }
-    }
-    public void InitiateCombat()
-    {
-
     }
 }

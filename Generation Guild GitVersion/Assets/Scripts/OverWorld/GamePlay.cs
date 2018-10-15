@@ -155,7 +155,7 @@ public class GamePlay : MonoBehaviour
             switch (cards[actualPosition].types[0])
             {
                 case Card.Type.Purple:
-                    DoPurpleEvents(ChooseCharacter());
+                    DoPurpleEvents();
                     break;
                 case Card.Type.Blue:
                     DoBlueEvents();
@@ -187,23 +187,23 @@ public class GamePlay : MonoBehaviour
 
     //Need Complition
 
-        void DoPurpleEvents(Hero hero)
+        void DoPurpleEvents()
         {
             int r = Random.Range(0, 4);
 
             switch (r)
             {
                 case 0:
-                    cardEvent.PurpleCursed1(hero);
+                    cardEvent.PurpleCursed1();
                     break;
                 case 1:
-                    cardEvent.PurpleTrap1(hero);
+                    cardEvent.PurpleTrap1();
                     break;
                 case 2:
-                    cardEvent.PurpleTrap4(hero);
+                    cardEvent.PurpleTrap4();
                     break;
                 case 3:
-                    cardEvent.PurpleGoodie1(hero);
+                    cardEvent.PurpleGoodie1();
                     break;
             }
         }
@@ -215,13 +215,13 @@ public class GamePlay : MonoBehaviour
             switch (r)
             {
                 case 0:
-                    cardEvent.BlueCursed1(player.heroes);
+                    cardEvent.BlueCursed1();
                     break;
                 case 1:
-                    cardEvent.BlueCursed2(player.heroes);
+                    cardEvent.BlueCursed2();
                     break;
                 case 2:
-                    cardEvent.BlueGoodie2(player.heroes);
+                    cardEvent.BlueGoodie2();
                     break;
             }
         }
