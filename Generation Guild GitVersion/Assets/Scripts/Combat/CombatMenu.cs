@@ -17,7 +17,6 @@ public class CombatMenu : MonoBehaviour
     private int numberOfTargets;
     SkillsData skilldata;
     private int filledChoices;
-
     private void OnEnable()
     {
         PrimaryActionMenu.SetActive(true);

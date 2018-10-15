@@ -292,6 +292,7 @@ MonoBehaviour:
   - {fileID: 7231838947288611153, guid: 664bb4c9871c90c4d9860c5171e01f83, type: 3}
   - {fileID: 228789714197007548, guid: 830a001a36942164882ebbeda426a04a, type: 3}
   - {fileID: 5022397183574823524, guid: df5dae8893a5b5d43a7e5f6459ac7132, type: 3}
+  InCombat: 0
 --- !u!4 &9358364
 Transform:
   m_ObjectHideFlags: 0
@@ -4389,6 +4390,7 @@ MonoBehaviour:
   UIPanel: {fileID: 0}
   CombatMenuObject: {fileID: 1037177770}
   YouLoseMenu: {fileID: 1912544538}
+  Cards: {fileID: 207535564}
 --- !u!1001 &699252936
 PrefabInstance:
   m_ObjectHideFlags: 0

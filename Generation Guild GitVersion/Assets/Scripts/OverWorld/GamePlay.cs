@@ -188,6 +188,7 @@ public class GamePlay : MonoBehaviour
                     }
                     break;
             }
+            lockMove = false;
         }
 
         //Do Courotine

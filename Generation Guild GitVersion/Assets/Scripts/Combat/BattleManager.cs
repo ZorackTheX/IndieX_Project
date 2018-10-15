@@ -11,6 +11,7 @@ public class BattleManager : MonoBehaviour
     [SerializeField]
     private Enemy[] enemies;
 
+    public bool InCombat = false;
     void Awake()
     {
         
@@ -24,14 +25,10 @@ public class BattleManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
     }
-    private void OnEnable()
-    {
-        //GetCharacters();
-        //NextTurn();
-    }
+
     private void Update()
     {
-        CheckBattleOver();
+        if(InCombat) CheckBattleOver();
     }
 
     private void GetCharacters()
@@ -58,6 +55,8 @@ public class BattleManager : MonoBehaviour
                 //Debug.Log("Index: " + characters.IndexOf(enemy.gameObject));
             }
         }
+        InCombat = true;
+        CanvasScript.instance.SetCardsAside();
         NextTurn();
     }
     public void NextTurn()
@@ -221,6 +220,8 @@ public class BattleManager : MonoBehaviour
             GamePlay gP = FindObjectOfType<GamePlay>();
 
             gP.lockMove = false;
+            InCombat = false;
+            CanvasScript.instance.GetCardsBack();
             return true;
         }
         return false;
