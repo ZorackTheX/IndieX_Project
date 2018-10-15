@@ -40,6 +40,8 @@ public class MapManager : MonoBehaviour
         {
             doMap = false;
 
+            GameManager.instance.DiceDisapear();
+
             dice.roomCalcDone = false;
 
             cards = new Card[roomNumber];

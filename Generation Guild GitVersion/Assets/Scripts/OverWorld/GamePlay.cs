@@ -51,13 +51,18 @@ public class GamePlay : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.R))
         {
-            player.transform.position = partyBase.position;
-            currPos.position = player.transform.position;
-
-            mapMan.Remake();
+            ResetGamePlay();
         }
 
         player.actualPosition = actualPosition;
+    }
+
+    void ResetGamePlay()
+    {
+        player.transform.position = partyBase.position;
+        currPos.position = player.transform.position;
+
+        mapMan.Remake();
     }
 
     void PlayCheck()
@@ -155,6 +160,7 @@ public class GamePlay : MonoBehaviour
             switch (cards[actualPosition].types[0])
             {
                 case Card.Type.Purple:
+                    HeroMenu();
                     DoPurpleEvents(ChooseCharacter());
                     break;
                 case Card.Type.Blue:
@@ -166,6 +172,10 @@ public class GamePlay : MonoBehaviour
                 case Card.Type.Red:
                     DoRedEvents();
                     break;
+                case Card.Type.Green:
+                    GameManager.instance.ResetGame();
+                    ResetGamePlay();
+                    break;
             }
         }
 
@@ -176,9 +186,14 @@ public class GamePlay : MonoBehaviour
         }
     }
 
+    void HeroMenu()
+    {
+        GameManager.instance.ChoseHero();
+    }
+
     Hero ChooseCharacter()
     {
-        //Do UI to chooseCharacter
+        chosenHero = GameManager.instance.n;
 
         return player.heroes[chosenHero];
     }
